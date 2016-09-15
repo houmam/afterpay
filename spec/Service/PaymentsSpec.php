@@ -12,8 +12,8 @@ use CultureKings\Afterpay\Model\Refund;
 use CultureKings\Afterpay\Service\Payments;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Message\Request;
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Stream\NullStream;
 use GuzzleHttp\Stream\Stream;
 use JMS\Serializer\SerializerInterface;
@@ -64,7 +64,7 @@ class PaymentsSpec extends ObjectBehavior
         $exception = new ClientException('ddssda', $request, $response);
 
         $client->get('payments', Argument::any())->willThrow($exception);
-        
+
         $serializer->deserialize(Argument::any(), ErrorResponse::class, 'json')->shouldBeCalled()->willReturn($errorResponse);
 
         $this->shouldThrow(ApiException::class)->duringListPayments();
@@ -254,7 +254,7 @@ class PaymentsSpec extends ObjectBehavior
         $exception = new ClientException('ddssda', $request, $response);
 
         $client->post('payments/23841566/void', Argument::any())->willThrow($exception);
-        
+
         $serializer->deserialize(Argument::any(), ErrorResponse::class, 'json')->shouldBeCalled()->willReturn($errorResponse);
 
         $this->shouldThrow(ApiException::class)->duringVoid('23841566');

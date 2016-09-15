@@ -13,7 +13,6 @@ use CultureKings\Afterpay\Traits\ClientTrait;
 use CultureKings\Afterpay\Traits\SerializerTrait;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Query;
 use JMS\Serializer\SerializerInterface;
 
 /**
@@ -51,8 +50,6 @@ class Payments
      */
     public function listPayments(array $filters = [ ])
     {
-        $query = new Query($filters);
-        $query->setAggregator($query::duplicateAggregator());
 
         try {
             $result = $this->getClient()->get(
@@ -62,7 +59,7 @@ class Payments
                         $this->getAuthorization()->getMerchantId(),
                         $this->getAuthorization()->getSecret(),
                     ],
-                    'query' => $query,
+                    'query' => \GuzzleHttp\Psr7\build_query($filters),
                 ]
             );
         } catch (ClientException $e) {

@@ -13,8 +13,8 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Stream\NullStream;
-use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Stream;
 use JMS\Serializer\SerializerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -57,7 +57,7 @@ class OrdersSpec extends ObjectBehavior
         ErrorResponse $errorResponse
     ) {
         $request = new Request('get', 'test');
-        $stream = new NullStream();
+        $stream = \GuzzleHttp\Psr7\stream_for(NULL);
         $response = new Response('400', [], $stream);
 
         $exception = new ClientException('ddssda', $request, $response);
@@ -95,7 +95,7 @@ class OrdersSpec extends ObjectBehavior
         ErrorResponse $errorResponse
     ) {
         $request = new Request('get', 'test');
-        $stream = new NullStream();
+        $stream = \GuzzleHttp\Psr7\stream_for(NULL);
         $response = new Response('400', [], $stream);
 
         $exception = new ClientException('ddssda', $request, $response);
